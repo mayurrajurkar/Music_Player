@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <h2 id="title">On My Way</h2>
+            <h3 id="artist">Alan Walker</h3>
+            <div class="img">
+                <img src="Images/On My Way.jpg" alt="">
+            </div>
+            <div class="music">
+                <audio src="Music/On My Way.mp3"  ></audio>
+                <div class="controls">
+                    <i class="fas fa-backward" title="Previous" id="prev"></i>
+                    <i class="fas fa-play main_button" title="play" id="play"></i>
+                    <i class="fas fa-forward" title="next" id="next"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const play = document.getElementById("play");
+        const img = document.querySelector("img");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+
+        isplaying = false ;
+        const PlayMusic = () => {
+            isplaying = false;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+
+            img.classList.add("anime");
+        };
+       const PauseMusic  = () => {
+            isplaying = true;
+            music.pause();
+            play.classList.replace("fa-pause","fa-play");
+
+            img.classList.remove("anime");
+        };
+        play.addEventListener("click", () => {
+           
+            isplaying ? PlayMusic() :PauseMusic();
+        });
+
+        const songs = [
+            {
+                name : "On My Way",
+                title :"On My Way",
+                artist :"Alan Walker",
+            },
+            {
+                name : "Faded",
+                title :"Faded",
+                artist :"Alan Walker",
+            },
+            {
+                name : "Alone",
+                title :"Alone",
+                artist :"Alan Walker",
+            },
+            
+        ];
+
+        const loadSong = (songs) =>{
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "Music/"+songs.name+".mp3";
+            img.src = "Images/" + songs.name + ".jpg";
+        };
+        //  loadSong(songs[0]);
+        songIndex = 0;
+
+        const nextSong = () => {
+            songIndex = (songIndex +1) % songs.length;
+            loadSong(songs[songIndex]);
+            PlayMusic();
+
+        };
+        const prevSong = () => {
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            loadSong(songs[songIndex]);
+            PlayMusic();
+
+        };
+
+        next.addEventListener("click",nextSong);
+        prev.addEventListener("click",prevSong);
+    </script>
+
+</body>
+</html>
